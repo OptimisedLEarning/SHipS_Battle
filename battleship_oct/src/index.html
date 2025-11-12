@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Battleship</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <h1>Battleship</h1>
+  
+  <p> <button id ="start"> start </button></p>
+  <p>
+    <button id="rotate">Rotate (R)</button>
+    <button id="auto-place">Auto-place My Ships</button>
+  </p>
+  <div id="placing-info" style="margin-top:8px; font-weight:600;"></div>
+  <p data-turn></p>
+
+  <main>
+    <section>
+      <h2>Your Board</h2>
+      <div class="grid" data-board="player">
+       
+      </div>
+    </section>
+    <section>
+      <h2>Enemy Board</h2>
+      <div class="grid" data-board="enemy">
+      
+      </div>
+    </section>
+  </main>
+
+  <script src="./index.js" type="module"></script>
+</body>
+</html>

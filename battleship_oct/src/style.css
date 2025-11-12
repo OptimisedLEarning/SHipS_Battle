@@ -1,0 +1,260 @@
+/* Global reset and layout */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: #f0f0f0;
+}
+
+/* Main layout */
+main {
+  display: flex;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+h1 {
+  margin-top: 16px;
+}
+
+/* Grid container */
+.grid {
+  /* This CSS uses the --size variable set by JavaScript */
+  display: grid;
+  position: relative; /* allow absolute particles inside */
+  grid-template-columns: repeat(var(--size, 10), 30px);
+  gap: 2px;
+  border: 2px solid #333;
+}
+
+/* Grid cells */
+.cell {
+  width: 30px;
+  height: 30px;
+  background: #ccc;
+  border: 1px solid #aaa;
+  cursor: pointer;
+  transition: background 100ms;
+}
+
+.cell:hover {
+  background: #ddd;
+}
+
+.cell:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+/* Cell preview (during placement) */
+.cell.preview {
+  outline: 2px solid orange;
+  background: rgba(255, 165, 0, 0.4);
+}
+
+.cell.preview.invalid {
+  outline: 2px solid crimson;
+  background: rgba(220, 20, 60, 0.3);
+}
+
+/* Preview animations */
+@keyframes pulse-red {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.cell.preview.invalid {
+  animation: pulse-red 300ms ease-in-out 0s 2;
+}
+
+/* Cell states: ship, hit, miss */
+.cell.ship {
+  background: #777; /* Your ship */
+}
+
+.cell.hit {
+  background: crimson; /* A hit! */
+}
+
+.cell.miss {
+  background: steelblue; /* A miss */
+}
+
+/* Hit/miss animations */
+@keyframes hit-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.cell.hit {
+  animation: hit-pop 250ms ease-in-out 0s 1;
+}
+
+@keyframes miss-fade {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.cell.miss {
+  animation: miss-fade 200ms ease-in-out 0s 1;
+}
+
+/* Turn display */
+[data-turn] {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Particle effect inside grid */
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: particle-fall 700ms ease-out forwards;
+}
+
+@keyframes particle-fall {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-30px) scale(0.6); opacity: 0; }
+}
+
+/* Victory overlay */
+.overlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2000;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.overlay .victory {
+  font-size: 2rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  font-weight: bold;
+}
+
+.overlay button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 200ms;
+}
+
+.overlay #restart-overlay {
+  background: #28a745;
+  color: white;
+}
+
+.overlay #restart-overlay:hover {
+  background: #218838;
+}
+
+.overlay #close-overlay {
+  background: #6c757d;
+  color: white;
+}
+
+.overlay #close-overlay:hover {
+  background: #5a6268;
+}
+
+/* Confetti container */
+.confetti {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Individual confetti pieces */
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 14px;
+  opacity: 0.9;
+  transform-origin: center;
+  animation: confetti-fall 1600ms linear forwards;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-10vh) rotate(0deg); }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0.95; }
+}
+
+/* Control buttons */
+button {
+  padding: 8px 16px;
+  font-size: 1rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 200ms;
+  margin: 4px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Placing info display */
+#placing-info {
+  margin-top: 8px;
+  font-weight: 600;
+  color: #333;
+  min-height: 24px;
+}
+
+/* Responsive sections */
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section h2 {
+  margin-bottom: 12px;
+  color: #333;
+}
