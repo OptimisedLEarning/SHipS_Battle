@@ -5,24 +5,92 @@
   padding: 0;
 }
 
-body {
-  font-family: sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background: #f0f0f0;
+:root {
+  --bg-top: #071b2c;
+  --bg-bottom: #042b42;
+  --accent: #1fb6ff;
+  --muted: rgba(255,255,255,0.78);
 }
 
-/* Main layout */
-main {
+body {
+  font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
+  min-height: 100vh;
   display: flex;
-  gap: 40px;
-  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(31,182,255,0.06), transparent 10%),
+              radial-gradient(900px 400px at 90% 90%, rgba(255,255,255,0.03), transparent 10%),
+              linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  color: white;
+  padding: 36px 18px;
+  overflow: hidden;
+}
+
+/* decorative animated blobs */
+.background-visuals {
+  position: fixed;
+  inset: -10% -10% auto -10%;
+  width: 130%;
+  height: 120%;
+  background: radial-gradient(circle at 15% 20%, rgba(31,182,255,0.12), transparent 12%),
+              radial-gradient(circle at 85% 80%, rgba(255,255,255,0.06), transparent 12%);
+  filter: blur(40px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* App container */
+.app {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 980px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-radius: 16px;
+  padding: 22px 24px;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter: blur(6px) saturate(120%);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 8px;
 }
 
 h1 {
-  margin-top: 16px;
+  font-size: 2rem;
+  letter-spacing: 0.6px;
+  margin-bottom: 4px;
+  color: #fff;
+}
+
+.subtitle {
+  margin-top: 2px;
+  color: rgba(255,255,255,0.75);
+  font-size: 0.95rem;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.placing-info, .turn-info {
+  min-height: 20px;
+  color: rgba(255,255,255,0.9);
+  font-weight: 600;
+}
+
+.boards {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 8px;
 }
 
 /* Grid container */
@@ -31,22 +99,28 @@ h1 {
   display: grid;
   position: relative; /* allow absolute particles inside */
   grid-template-columns: repeat(var(--size, 10), 30px);
-  gap: 2px;
-  border: 2px solid #333;
+  gap: 6px;
+  padding: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.04);
 }
 
 /* Grid cells */
 .cell {
   width: 30px;
   height: 30px;
-  background: #ccc;
-  border: 1px solid #aaa;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset;
   cursor: pointer;
-  transition: background 100ms;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
 }
 
 .cell:hover {
-  background: #ddd;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(2,6,23,0.45);
 }
 
 .cell:disabled {
@@ -56,13 +130,13 @@ h1 {
 
 /* Cell preview (during placement) */
 .cell.preview {
-  outline: 2px solid orange;
-  background: rgba(255, 165, 0, 0.4);
+  outline: 2px solid rgba(255,165,0,0.95);
+  background: linear-gradient(180deg, rgba(255,165,0,0.18), rgba(255,165,0,0.08));
 }
 
 .cell.preview.invalid {
-  outline: 2px solid crimson;
-  background: rgba(220, 20, 60, 0.3);
+  outline: 2px solid rgba(220,20,60,0.95);
+  background: linear-gradient(180deg, rgba(220,20,60,0.16), rgba(220,20,60,0.06));
 }
 
 /* Preview animations */
@@ -78,15 +152,18 @@ h1 {
 
 /* Cell states: ship, hit, miss */
 .cell.ship {
-  background: #777; /* Your ship */
+  background: linear-gradient(180deg, rgba(120,120,120,0.9), rgba(80,80,80,0.9)); /* Your ship */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.45) inset;
 }
 
 .cell.hit {
-  background: crimson; /* A hit! */
+  background: radial-gradient(circle at 30% 30%, #ff6b6b, crimson 40%);
+  box-shadow: 0 4px 14px rgba(255,107,107,0.12);
 }
 
 .cell.miss {
-  background: steelblue; /* A miss */
+  background: radial-gradient(circle at 30% 30%, #71b7ff, steelblue 40%);
+  box-shadow: 0 4px 14px rgba(113,183,255,0.08);
 }
 
 /* Hit/miss animations */
@@ -111,10 +188,9 @@ h1 {
 
 /* Turn display */
 [data-turn] {
-  margin-top: 20px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
+  margin-top: 8px;
+  font-size: 1rem;
+  color: var(--muted);
 }
 
 /* Particle effect inside grid */
@@ -213,38 +289,44 @@ h1 {
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0.95; }
 }
 
-/* Control buttons */
-button {
-  padding: 8px 16px;
-  font-size: 1rem;
-  background: #007bff;
+/* Buttons */
+.btn {
+  padding: 8px 14px;
+  font-size: 0.95rem;
   color: white;
-  border: none;
-  border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 200ms;
-  margin: 4px;
+  transition: transform 130ms ease, background 140ms ease, box-shadow 140ms ease;
+  margin: 4px 6px;
 }
 
-button:hover {
-  background: #0056b3;
+.btn:hover { transform: translateY(-3px); background: rgba(255,255,255,0.08); }
+.btn:active { transform: translateY(-1px); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--accent), #2bd1ff);
+  color: #04202b;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 6px 18px rgba(31,182,255,0.12);
 }
 
-button:active {
-  transform: scale(0.98);
-}
-
-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+/* Control buttons legacy selector fallback */
+button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
 }
 
 /* Placing info display */
 #placing-info {
   margin-top: 8px;
   font-weight: 600;
-  color: #333;
-  min-height: 24px;
+  color: rgba(255,255,255,0.9);
+  min-height: 18px;
 }
 
 /* Responsive sections */
@@ -256,5 +338,12 @@ section {
 
 section h2 {
   margin-bottom: 12px;
-  color: #333;
+  color: rgba(255,255,255,0.9);
+}
+
+.app-footer {
+  text-align: center;
+  margin-top: 12px;
+  color: rgba(255,255,255,0.65);
+  font-size: 0.9rem;
 }

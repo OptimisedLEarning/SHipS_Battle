@@ -4,33 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Battleship</title>
+  <!-- Use a clean modern font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <h1>Battleship</h1>
-  
-  <p> <button id ="start"> start </button></p>
-  <p>
-    <button id="rotate">Rotate (R)</button>
-    <button id="auto-place">Auto-place My Ships</button>
-  </p>
-  <div id="placing-info" style="margin-top:8px; font-weight:600;"></div>
-  <p data-turn></p>
+  <div class="background-visuals" aria-hidden="true"></div>
+  <div class="app">
+    <header class="app-header">
+      <h1>Battleship</h1>
+      <p class="subtitle">Sink the enemy fleet — one shot at a time</p>
+    </header>
 
-  <main>
-    <section>
-      <h2>Your Board</h2>
-      <div class="grid" data-board="player">
-       
-      </div>
-    </section>
-    <section>
-      <h2>Enemy Board</h2>
-      <div class="grid" data-board="enemy">
-      
-      </div>
-    </section>
-  </main>
+    <div class="controls">
+      <p><button id="start" class="btn btn-primary">Start</button></p>
+      <p>
+        <button id="rotate" class="btn">Rotate (R)</button>
+        <button id="auto-place" class="btn">Auto-place My Ships</button>
+      </p>
+      <div id="placing-info" class="placing-info"></div>
+      <p data-turn class="turn-info"></p>
+    </div>
+
+    <main class="boards">
+      <section>
+        <h2>Your Board</h2>
+        <div class="grid" data-board="player"></div>
+      </section>
+      <section>
+        <h2>Enemy Board</h2>
+        <div class="grid" data-board="enemy"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">Built with ❤️ — Good luck, Captain!</footer>
+  </div>
 
   <script src="./index.js" type="module"></script>
 </body>
